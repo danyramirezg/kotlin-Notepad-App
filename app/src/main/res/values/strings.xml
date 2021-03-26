@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">NotepadApp</string>
+    <string name="title">Task title</string>
+    <string name="description_task">Task description</string>
+    <string name="assigned_by">Assigned by</string>
+    <string name="save_button">Save Note</string>
+</resources>
