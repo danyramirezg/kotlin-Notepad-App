@@ -5,7 +5,9 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.icu.util.UniversalTimeScale.toLong
 import android.util.Log
+import android.widget.Toast
 import com.dany.notepadapp.model.*
 import java.sql.Time
 import java.text.DateFormat
@@ -13,25 +15,17 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class ChoresDatabaseHandler(context: Context) :
+class ChoresDatabaseHandler(val context: Context) :
         SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     override fun onCreate(db: SQLiteDatabase?) {
         // Create table:
         var CREATE_CHORE_TABLE =
-
-                "CREATE TABLE $TABLE_NAME ($KEY_ID INTEGER PRIMARY KEY," +
-                        "$KEY_CHORE_NAME TEXT," +
-                        "$KEY_CHORE_DESCRIPTION TEXT," +
-                        "$KEY_CHORE_ASSIGNED_BY TEXT," +
-                        "$KEY_CHORE_ASSIGNED_TIME LONG);"
-
-
-//                "CREATE TABLE " + TABLE_NAME + "(" + KEY_ID + " INTEGER PRIMARY KEY," +
-//                        KEY_CHORE_NAME + " TEXT," +
-//                        KEY_CHORE_DESCRIPTION + " TEXT," +
-//                        KEY_CHORE_ASSIGNED_BY + " TEXT," +
-//                        KEY_CHORE_ASSIGNED_TIME + " LONG" + ");"
+                "CREATE TABLE " + TABLE_NAME + "(" + KEY_ID + " INTEGER PRIMARY KEY," +
+                        KEY_CHORE_NAME + " TEXT," +
+                        KEY_CHORE_DESCRIPTION + " TEXT," +
+                        KEY_CHORE_ASSIGNED_BY + " TEXT," +
+                        KEY_CHORE_ASSIGNED_TIME + " LONG" + ");"
 
         db?.execSQL(CREATE_CHORE_TABLE)
 
@@ -59,6 +53,14 @@ class ChoresDatabaseHandler(context: Context) :
         values.put(KEY_CHORE_ASSIGNED_TIME, System.currentTimeMillis())
 
         var insert = db.insert(TABLE_NAME, null, values)
+
+        if (insert == (-1).toLong()){
+            Toast.makeText(context, "Error, Data is not inserted", Toast.LENGTH_LONG).show()
+            println("Error, Data is not inserted")
+        } else {
+            Toast.makeText(context, "Data is inserted", Toast.LENGTH_LONG).show()
+            println("Data is inserted")
+        }
 
         // To debugging
         Log.d("DATA INSERTED", "SUCCESS $insert")
