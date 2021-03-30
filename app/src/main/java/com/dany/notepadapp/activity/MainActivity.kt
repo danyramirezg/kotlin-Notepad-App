@@ -7,7 +7,9 @@ import android.text.TextUtils
 import android.util.Log
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.recyclerview.widget.RecyclerView
 import com.dany.notepadapp.R
+import com.dany.notepadapp.data.ChoreListAdapter
 import com.dany.notepadapp.data.ChoresDatabaseHandler
 import com.dany.notepadapp.model.Chore
 import kotlinx.android.synthetic.main.activity_main.*
@@ -23,12 +25,12 @@ class MainActivity : AppCompatActivity() {
 
         dbHandler = ChoresDatabaseHandler(this)
 
-        saveTask.setOnClickListener{
+        saveTask.setOnClickListener {
 
             // If the fields aren't empty, save them in the database
 
-            if(!TextUtils.isEmpty(titleId.text.toString())
-                            && !TextUtils.isEmpty(assignedId.text.toString())
+            if (!TextUtils.isEmpty(titleId.text.toString())
+                    && !TextUtils.isEmpty(assignedId.text.toString())
                     && !TextUtils.isEmpty(descriptionId.text.toString())) {
 
                 // Save to database
@@ -40,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
                 saveToDataBase(chore)
                 startActivity(Intent(this, ChoreListActivity::class.java))
-            } else{
+            } else {
                 Toast.makeText(this, "Please complete the empty fields", Toast.LENGTH_LONG).show()
             }
         }
@@ -59,7 +61,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun saveToDataBase(chore: Chore){
+    fun saveToDataBase(chore: Chore) {
         dbHandler!!.createChore(chore)
     }
 
