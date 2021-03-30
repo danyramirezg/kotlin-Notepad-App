@@ -13,17 +13,25 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class ChoresDatabaseHandler (context: Context):
+class ChoresDatabaseHandler(context: Context) :
         SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     override fun onCreate(db: SQLiteDatabase?) {
         // Create table:
         var CREATE_CHORE_TABLE =
-                "CREATE TABLE " + TABLE_NAME + "(" + KEY_ID + " INTEGER PRIMARY KEY," +
-                        KEY_CHORE_NAME + " TEXT," +
-                        KEY_CHORE_DESCRIPTION + " TEXT," +
-                        KEY_CHORE_ASSIGNED_BY + " TEXT," +
-                        KEY_CHORE_ASSIGNED_TIME + " LONG" + ")"
+
+                "CREATE TABLE $TABLE_NAME ($KEY_ID INTEGER PRIMARY KEY," +
+                        "$KEY_CHORE_NAME TEXT," +
+                        "$KEY_CHORE_DESCRIPTION TEXT," +
+                        "$KEY_CHORE_ASSIGNED_BY TEXT," +
+                        "$KEY_CHORE_ASSIGNED_TIME LONG);"
+
+
+//                "CREATE TABLE " + TABLE_NAME + "(" + KEY_ID + " INTEGER PRIMARY KEY," +
+//                        KEY_CHORE_NAME + " TEXT," +
+//                        KEY_CHORE_DESCRIPTION + " TEXT," +
+//                        KEY_CHORE_ASSIGNED_BY + " TEXT," +
+//                        KEY_CHORE_ASSIGNED_TIME + " LONG" + ");"
 
         db?.execSQL(CREATE_CHORE_TABLE)
 
@@ -33,7 +41,7 @@ class ChoresDatabaseHandler (context: Context):
 
         db?.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
 
-        // Create table again
+        // Create the table again
         onCreate(db)
 
     }
@@ -50,11 +58,10 @@ class ChoresDatabaseHandler (context: Context):
         values.put(KEY_CHORE_ASSIGNED_BY, chore.assignedBy)
         values.put(KEY_CHORE_ASSIGNED_TIME, System.currentTimeMillis())
 
-        db.insert(TABLE_NAME, null, values)
+        var insert = db.insert(TABLE_NAME, null, values)
 
         // To debugging
-        Log.d("DATA INSERTED", "SUCCESS")
-
+        Log.d("DATA INSERTED", "SUCCESS $insert")
         db.close()
     }
 
@@ -72,6 +79,7 @@ class ChoresDatabaseHandler (context: Context):
             do {
                 var chore = Chore()
 
+                chore.id = cursor.getInt(cursor.getColumnIndex(KEY_ID))
                 chore.choreName = cursor.getString(cursor.getColumnIndex(KEY_CHORE_NAME))
                 chore.description = cursor.getString(cursor.getColumnIndex(KEY_CHORE_DESCRIPTION))
                 chore.assignedBy = cursor.getString(cursor.getColumnIndex(KEY_CHORE_ASSIGNED_BY))
@@ -118,21 +126,21 @@ class ChoresDatabaseHandler (context: Context):
         values.put(KEY_CHORE_ASSIGNED_BY, chore.assignedBy)
         values.put(KEY_CHORE_ASSIGNED_TIME, System.currentTimeMillis())
 
+        // Update a row
         return db.update(TABLE_NAME, values, "$KEY_ID=?", arrayOf(chore.id.toString()))
     }
 
-    fun deleteChore(chore: Chore){
+    fun deleteChore(id: Int) {
         var db: SQLiteDatabase = writableDatabase
-        db.delete(TABLE_NAME, KEY_ID + "=?", arrayOf(chore.id.toString()))
+        db.delete(TABLE_NAME, "$KEY_ID=?", arrayOf(id.toString()))
         db.close()
     }
 
-    fun getChoresCount(): Int{
+    fun getChoresCount(): Int {
         var db: SQLiteDatabase = readableDatabase
         var countQuery = "SELECT * FROM $TABLE_NAME"
         var cursor: Cursor = db.rawQuery(countQuery, null)
 
         return cursor.count
-
     }
 }
