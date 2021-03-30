@@ -40,13 +40,32 @@ class MainActivity : AppCompatActivity() {
                 chore.description = descriptionId.text.toString()
                 chore.assignedBy = assignedId.text.toString()
 
+                // To debug, to see if data is inserted
+                println("======> chore name: ${chore.choreName}, Description: ${chore.description}, " +
+                        "assigned by: ${chore.assignedBy}")
+
                 saveToDataBase(chore)
+
+                // Open a new activity:
                 startActivity(Intent(this, ChoreListActivity::class.java))
             } else {
                 Toast.makeText(this, "Please complete the empty fields", Toast.LENGTH_LONG).show()
             }
         }
 
+    }
+
+    fun saveToDataBase(chore: Chore) {
+        dbHandler?.createChore(chore)
+    }
+
+    fun checkDB() {
+        if (dbHandler!!.getChoresCount() > 0) {
+            startActivity((Intent(this, ChoreListActivity::class.java)))
+
+        }
+    }
+}
 
 //        var chore = Chore()
 //        chore.choreName = "Things to do"
@@ -59,10 +78,3 @@ class MainActivity : AppCompatActivity() {
 //        var chores: ArrayList<Chore> = dbHandler!!.readChores()
 //        Log.d("Item:", chores.toString())
 
-    }
-
-    fun saveToDataBase(chore: Chore) {
-        dbHandler!!.createChore(chore)
-    }
-
-}
