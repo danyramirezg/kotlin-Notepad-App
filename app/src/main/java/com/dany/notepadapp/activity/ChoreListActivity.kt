@@ -35,10 +35,10 @@ class ChoreListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_chore_list)
 
         dbHandler = ChoresDatabaseHandler(this)
-
         choreList = ArrayList<Chore>()
-        adapter = ChoreListAdapter(choreList!!, this)
         choreListItems = ArrayList()
+        adapter = ChoreListAdapter(choreListItems!!, this)
+
         layoutManager = LinearLayoutManager(this)
 
         // Setup list = RecyclerView
@@ -52,11 +52,13 @@ class ChoreListActivity : AppCompatActivity() {
         for (chor in choreList!!.iterator()) {
 
             val chore = Chore()
-            chore.choreName = "Task tittle: ${chor.choreName}"
-            chore.description = "Task Description: ${chor.description}"
+            chore.choreName = "Task: ${chor.choreName}"
+            chore.description = "Description: ${chor.description}"
             chore.assignedBy = "Assigned by: ${chor.assignedBy}"
             chore.id = chor.id
             chor.showHumanDate(chor.timeAssigned!!)
+
+            choreListItems?.add(chore)
 
 
             Log.d("=====>ID: ", chor.id.toString())
@@ -79,10 +81,10 @@ class ChoreListActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        if (item?.itemId == R.id.add_menu_button) {
+        Toast.makeText(this, "ID ${item.itemId}", Toast.LENGTH_LONG).show()
+        if (item.itemId == R.id.add_menu_button) {
             Log.d("Click", "Item clicked")
             Toast.makeText(this, "Item Clicked", Toast.LENGTH_LONG).show()
-
             createPopupDialog()
 
         }

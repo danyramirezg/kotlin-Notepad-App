@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
 
     fun checkDB() {
         if (dbHandler!!.getChoresCount() > 0) {
-            startActivity((Intent(this, ChoreListActivity::class.java)))
+            startActivity(Intent(this, ChoreListActivity::class.java))
 
         }
     }
