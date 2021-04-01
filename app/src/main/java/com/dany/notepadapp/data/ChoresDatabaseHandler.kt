@@ -94,29 +94,28 @@ class ChoresDatabaseHandler(val context: Context) :
     }
 
 
-//        var cursor: Cursor = db.query(TABLE_NAME, arrayOf(KEY_ID, KEY_CHORE_NAME, KEY_CHORE_DESCRIPTION,
-//                            KEY_CHORE_ASSIGNED_BY, KEY_CHORE_ASSIGNED_TIME),
-//                            KEY_ID + "=?", arrayOf(id.toString()),
-//                    null, null, null, null)
-//
-//        if (cursor != null)
-//            cursor.moveToFirst()
-//
-//        var chore = Chore()
-//            chore.choreName = cursor.getString(cursor.getColumnIndex(KEY_CHORE_NAME))
-//            chore.description = cursor.getString(cursor.getColumnIndex(KEY_CHORE_DESCRIPTION))
-//            chore.assignedBy = cursor.getString(cursor.getColumnIndex(KEY_CHORE_DESCRIPTION))
-//            chore.timeAssigned = cursor.getLong(cursor.getColumnIndex(KEY_CHORE_ASSIGNED_TIME))
 
+    fun readAChore(id: Int): Chore {
 
-    // format date, to get something like: Mar 29 2021
+        var db: SQLiteDatabase = writableDatabase
+        var cursor: Cursor = db.query(TABLE_NAME, arrayOf(KEY_ID, KEY_CHORE_NAME, KEY_CHORE_DESCRIPTION,
+                KEY_CHORE_ASSIGNED_BY, KEY_CHORE_ASSIGNED_TIME),
+                "$KEY_ID=?", arrayOf(id.toString()),
+                null, null, null, null)
 
-//        var dateFormat: java.text.DateFormat = DateFormat.getDateInstance()
-//        var formattedDate = dateFormat.format(
-//                Date(cursor.getLong(cursor.getColumnIndex(KEY_CHORE_ASSIGNED_TIME))).time)
-//
-//        return chore
-//}
+        if (cursor != null)
+            cursor.moveToFirst()
+
+        var chore = Chore()
+        chore.id = cursor.getInt(cursor.getColumnIndex(KEY_ID))
+        chore.choreName = cursor.getString(cursor.getColumnIndex(KEY_CHORE_NAME))
+        chore.description = cursor.getString(cursor.getColumnIndex(KEY_CHORE_DESCRIPTION))
+        chore.assignedBy = cursor.getString(cursor.getColumnIndex(KEY_CHORE_ASSIGNED_BY))
+        chore.timeAssigned = cursor.getLong(cursor.getColumnIndex(KEY_CHORE_ASSIGNED_TIME))
+
+        return chore
+
+}
 
 
     fun updateChore(chore: Chore): Int {
