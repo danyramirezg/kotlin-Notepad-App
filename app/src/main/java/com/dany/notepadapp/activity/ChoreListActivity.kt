@@ -81,7 +81,6 @@ class ChoreListActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        Toast.makeText(this, "ID ${item.itemId}", Toast.LENGTH_LONG).show()
         if (item.itemId == R.id.add_menu_button) {
             Log.d("Click", "Item clicked")
             Toast.makeText(this, "Item Clicked", Toast.LENGTH_LONG).show()
