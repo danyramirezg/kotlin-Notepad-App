@@ -8,7 +8,7 @@
     tools:context=".activity.MainActivity">
 
     <EditText
-        android:id="@+id/titleId"
+        android:id="@+id/poptitleId"
         android:layout_width="match_parent"
         android:layout_height="44dp"
         android:layout_marginTop="72dp"
@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/descriptionId"
+        android:id="@+id/popDescriptionId"
         android:layout_width="match_parent"
         android:layout_height="94dp"
         android:layout_marginTop="72dp"
@@ -32,7 +32,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleId" />
+        app:layout_constraintTop_toBottomOf="@+id/poptitleId" />
 
     <EditText
         android:id="@+id/popAssignedId"
@@ -46,7 +46,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/descriptionId" />
+        app:layout_constraintTop_toBottomOf="@+id/popDescriptionId" />
 
     <ProgressBar
         android:id="@+id/progressBarId"
@@ -60,7 +60,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/saveTask"
+        android:id="@+id/popSaveTask"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="72dp"
